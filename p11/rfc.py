@@ -7,17 +7,14 @@ def generate_key():
     # 生成私钥和公钥
     private_key = sm2.CryptSM2()
     private_key.generate_key()
-    private_key.load()
+    public_key = private_key.public_key
 
-    return private_key, private_key.public_key
+    return private_key, public_key
 
 
 def sign_message(private_key, message):
-    # 计算消息的哈希值
-    hash_value = func.hash_message(message, 'sm3')
-
     # 使用私钥对消息进行签名
-    signature = private_key.sign(hash_value)
+    signature = private_key.sign(func.hash_message(message, 'sm3'))
 
     return signature
 
